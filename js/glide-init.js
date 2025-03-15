@@ -6,7 +6,19 @@ function createCoverflowEffect(glide, Components, Events) {
   const perspective = {
     // Set the current slide to flat perspective
     tilt: function(slide) {
-      slide.querySelector(elementSelector).style.transform = "perspective(2400px) rotateY(0deg)";
+      // Clear transformations first
+      Components.Html.slides.forEach(s => {
+        const el = s.querySelector(elementSelector);
+        if (el) {
+          el.style.transform = "";
+          el.style.transformOrigin = "50% 50%";
+        }
+      });
+
+      // Apply transformations with scale for active slide
+      const activeElement = slide.querySelector(elementSelector);
+      activeElement.style.transform = "perspective(2400px) rotateY(0deg) scale(1.15)";
+      activeElement.style.transformOrigin = "50% 50%";
       this.tiltPrevElements(slide);
       this.tiltNextElements(slide);
     },
@@ -18,8 +30,12 @@ function createCoverflowEffect(glide, Components, Events) {
       
       for (let i = 0; i < prevElements.length; i++) {
         const element = prevElements[i].querySelector(elementSelector);
-        element.style.transformOrigin = "100% 50%";
-        element.style.transform = `perspective(2400px) rotateY(${20 * Math.max(i, 2)}deg)`;
+        if (element) {
+          element.style.transformOrigin = "100% 50%";
+          // Adjust the angle based on position - prevent extreme angles
+          const angle = Math.min(20 * (i + 1), 60);
+          element.style.transform = `perspective(2400px) rotateY(${angle}deg)`;
+        }
       }
     },
     
@@ -30,8 +46,12 @@ function createCoverflowEffect(glide, Components, Events) {
       
       for (let i = 0; i < nextElements.length; i++) {
         const element = nextElements[i].querySelector(elementSelector);
-        element.style.transformOrigin = "0% 50%";
-        element.style.transform = `perspective(2400px) rotateY(${-20 * Math.max(i, 2)}deg)`;
+        if (element) {
+          element.style.transformOrigin = "0% 50%";
+          // Adjust the angle based on position - prevent extreme angles
+          const angle = Math.min(20 * (i + 1), 60);
+          element.style.transform = `perspective(2400px) rotateY(${-angle}deg)`;
+        }
       }
     }
   };
@@ -41,16 +61,22 @@ function createCoverflowEffect(glide, Components, Events) {
     perspective.tilt(Components.Html.slides[glide.index]);
   });
 
+  // Add event listener for window resize to reapply effects
+  window.addEventListener('resize', function() {
+    perspective.tilt(Components.Html.slides[glide.index]);
+  });
+
   return perspective;
 }
 
 // Helper function to get previous siblings
 function getPrevSiblings(element) {
   const siblings = [];
+  let currentElement = element;
   
-  if (element) {
-    while (element = element.previousElementSibling) {
-      siblings.push(element);
+  if (currentElement) {
+    while (currentElement = currentElement.previousElementSibling) {
+      siblings.push(currentElement);
     }
   }
   
@@ -60,10 +86,11 @@ function getPrevSiblings(element) {
 // Helper function to get next siblings
 function getNextSiblings(element) {
   const siblings = [];
+  let currentElement = element;
   
-  if (element) {
-    while (element = element.nextElementSibling) {
-      siblings.push(element);
+  if (currentElement) {
+    while (currentElement = currentElement.nextElementSibling) {
+      siblings.push(currentElement);
     }
   }
   
@@ -84,11 +111,13 @@ function initializeSlider() {
     touchRatio: 0.25,
     perTouch: 1,
     breakpoints: {
-      480: { gap: 10, perView: 1 },
+      480: { gap: 0, peek: 0, perView: 1 },
       768: { perView: 2 },
       1360: { perView: 3 },
-      1600: { perView: 4 },
-      1960: { perView: 5 }
+      1600: { perView: 3 },
+      1960: { perView: 6 },
+      2400: { perView: 6 },  // Added support for even larger screens
+      3000: { perView: 6 }   // Added support for ultra-wide screens
     }
   }).mount({
     Coverflow: createCoverflowEffect
@@ -97,8 +126,16 @@ function initializeSlider() {
   return slider;
 }
 
-
 // Initialize the slider when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', function() {
   initializeSlider();
+  
+  // Force recalculation of carousel on window resize
+  window.addEventListener('resize', function() {
+    // Add a slight delay to ensure DOM updates are complete
+    setTimeout(function() {
+      const event = new Event('resize');
+      window.dispatchEvent(event);
+    }, 100);
+  });
 });
