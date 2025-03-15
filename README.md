@@ -34,7 +34,7 @@ wake-the-nile/
 
 ## Dependencies
 - [Glide.js](https://glidejs.com/) - Used for the slider/carousel functionality.
-- WordPress 5.0+ - Required for compatibility.
+- WordPress
 
 ## Author
 Developed by **Anthony Coffey**
