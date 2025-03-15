@@ -13,11 +13,6 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: 1rem;
-}
-
-.glide.videos-slider {
-  padding-bottom: 4rem;
 }
 
 .glide__arrow {
@@ -27,4 +22,24 @@
 [data-ref="hero[el]"] {
   transition: transform 0.5s ease-in;
   will-change: transform;
+}
+
+.glide.videos-slider {
+  margin-bottom: 2rem;
+}
+
+ul.glide__slides {
+  padding-bottom: 2rem;
+}
+
+@media screen and (min-width: 992px) {
+
+  .glide.videos-slider {
+    margin-bottom: 4rem;
+  }
+  
+  ul.glide__slides {
+    padding-bottom: 8rem;
+  }
+  
 }
