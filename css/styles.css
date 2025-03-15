@@ -32,6 +32,10 @@ ul.glide__slides {
   padding-bottom: 2rem;
 }
 
+li.glide__slide {
+  max-width: 350px;
+}
+
 @media screen and (min-width: 992px) {
 
   .glide.videos-slider {
@@ -41,5 +45,5 @@ ul.glide__slides {
   ul.glide__slides {
     padding-bottom: 8rem;
   }
-  
+
 }

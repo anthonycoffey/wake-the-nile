@@ -75,8 +75,8 @@ function initializeSlider() {
   const slider = new Glide('.videos-slider', {
     focusAt: "center",
     perView: 3,
-    peek: 40,
-    gap: 40,
+    peek: 60,
+    gap: 60,
     autoplay: false,
     hoverpause: false,
     animationDuration: 1000,
@@ -84,7 +84,7 @@ function initializeSlider() {
     touchRatio: 0.25,
     perTouch: 1,
     breakpoints: {
-      480: { gap: 10, peek: 30, perView: 1 },
+      480: { gap: 30, peek: 30, perView: 1 },
       768: { perView: 2 },
       1360: { perView: 3 },
       1600: { perView: 4 },
