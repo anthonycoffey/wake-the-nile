@@ -1,0 +1,30 @@
+.glide__bullets {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.glide__bullets > * {
+  margin: 0 10px;
+}
+
+.glide__arrows {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.glide.videos-slider {
+  padding-bottom: 4rem;
+}
+
+.glide__arrow {
+  position: relative;
+}
+
+[data-ref="hero[el]"] {
+  transition: transform 0.5s ease-in;
+  will-change: transform;
+}

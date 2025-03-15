@@ -1,0 +1,97 @@
+.x-logo {
+    color: white;
+}
+
+.showlist-wrapper li.show:not(:last-child) {
+    padding-bottom: 2rem;
+    border-bottom: 1px dashed;
+}
+
+.showlist-wrapper {
+    border: 1px solid;
+    padding: 0rem 3rem 3rem;
+}
+
+/* Show Venue Name Block */
+.show-venue-name {
+    font-weight: 800;
+    font-size: 1em;
+    margin-bottom: 8px;
+}
+
+/* Show Date/Time Block */
+.show-date-time {
+    margin-bottom: 8px;
+    color: #f3f3f3;
+}
+
+/* Tickets Link Block */
+.show-tickets-link {
+    margin: 12px 0 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.show-tickets-link .tickets-button {
+    display: inline-block;
+    background-color: #e63946;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: background-color 0.3s ease;
+}
+
+.show-tickets-link .tickets-button:hover {
+    background-color: #c1121f;
+    text-decoration: none;
+}
+
+.show-tickets-link .tickets-text-link {
+    color: #e63946;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.show-tickets-link .tickets-text-link:hover {
+    text-decoration: underline;
+}
+
+/* Google Map Block */
+.show-google-map {
+    margin: 20px 0;
+}
+
+.show-google-map .map-container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.show-google-map .map-directions {
+    margin-top: 10px;
+    text-align: right;
+}
+
+.show-google-map .map-directions a {
+    display: inline-block;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.show-google-map .map-directions a:hover {
+    text-decoration: underline;
+}
+
+/* Block Editor Styles */
+.editor-styles-wrapper .show-venue-name,
+.editor-styles-wrapper .show-date-time,
+.editor-styles-wrapper .show-tickets-link,
+.editor-styles-wrapper .show-google-map {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+}
