@@ -12,11 +12,13 @@
 
   add_theme_support('custom-fields');
 
+
   /**
    * Enqueue custom styles and scripts
    */
   function enqueue_custom_styles_and_scripts()
   {
+    wp_enqueue_style('dashicons');
     wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css');
     wp_enqueue_style('glide-css-theme', 'https://cdn.jsdelivr.net/npm/glidejs@2.1.0/dist/css/glide.theme.min.css');
     wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], '0.0.7');
