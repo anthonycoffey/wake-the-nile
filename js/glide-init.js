@@ -101,7 +101,7 @@ function getNextSiblings(element) {
 function initializeSlider() {
   const slider = new Glide('.videos-slider', {
     focusAt: "center",
-    perView: 3,
+    perView: 6,
     peek: 0,
     gap: 50,
     startAt: 2,
@@ -112,10 +112,10 @@ function initializeSlider() {
     touchRatio: 0.25,
     perTouch: 1,
     breakpoints: {
-      480: { gap: 0, peek: 0, perView: 1 },
+      480: { gap: 20, peek: 40, perView: 1 },
       768: { perView: 2 },
       1360: { perView: 3 },
-      1600: { perView: 6 },  // Added support for even larger screens
+      1600: { perView: 6 },
     }
   }).mount({
     Coverflow: createCoverflowEffect

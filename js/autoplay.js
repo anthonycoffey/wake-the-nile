@@ -2,177 +2,178 @@ document.addEventListener('DOMContentLoaded', () => {
   // Keep track of videos that have been deliberately paused by the user
   const userPausedVideos = new Set();
   
-  // Function to handle active slide changes
-  function handleActiveSlideChange() {
-    // Pause all videos first (except the active one)
-    document.querySelectorAll('.glide__slide:not(.glide__slide--active) video').forEach(video => {
-      video.pause();
-    });
-    
-    // Find the currently active slide's video
-    const activeVideo = document.querySelector('.glide__slide--active video');
-    
-    // If no video element is found in the active slide, exit
-    if (!activeVideo) {
-      console.log('No video element found in the active slide');
-      return;
-    }
-    
-    console.log('Active slide changed, found video:', activeVideo);
-    
-    // Check if the user deliberately paused this video
-    if (userPausedVideos.has(activeVideo)) {
-      console.log('Video was previously paused by user, not auto-playing');
-      return;
-    }
-    
-    // Play the video in the active slide if not paused by user
-    if (activeVideo.readyState >= 2) {
-      activeVideo.play().catch(error => {
-        console.warn('Could not autoplay video:', error);
-      });
-    } else {
-      // If not loaded, wait for it
-      activeVideo.addEventListener('loadeddata', () => {
-        if (!userPausedVideos.has(activeVideo)) {
-          activeVideo.play().catch(error => {
-            console.warn('Could not autoplay video after loading:', error);
-          });
-        }
-      }, { once: true });
-    }
+  // Throttle function to prevent excessive event firing
+  function throttle(callback, delay = 100) {
+    let lastCall = 0;
+    return function(...args) {
+      const now = Date.now();
+      if (now - lastCall >= delay) {
+        lastCall = now;
+        callback(...args);
+      }
+    };
   }
   
-  // Function to reset the userPausedVideos state when slide changes
-  function resetPausedStateOnSlideChange(newActiveSlide) {
-    // Remove all videos from other slides from the userPausedVideos set
+  // Combine all video handling logic into a single function
+  function handleVideoVisibility() {
+    // Get the active slide
+    const activeSlide = document.querySelector('.glide__slide--active');
+    if (!activeSlide) return;
+    
+    // Get the video in active slide
+    const activeVideo = activeSlide.querySelector('video');
+    if (!activeVideo) return;
+    
+    // Check if the active slide is sufficiently visible
+    const rect = activeSlide.getBoundingClientRect();
+    const isVisible = (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+    
+    // Pause all videos in non-active slides
     document.querySelectorAll('.glide__slide:not(.glide__slide--active) video').forEach(video => {
+      video.pause();
+      // Also clean up the paused states for non-active slides
       userPausedVideos.delete(video);
     });
     
-    // We keep the active video's pause state as is
-  }
-  
-  // Keep the intersection observer for scroll-based detection
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      const slide = entry.target;
-      
-      // Only take action if this is the active slide
-      if (slide.classList.contains('glide__slide--active')) {
-        const videoElement = slide.querySelector('video');
-        if (!videoElement) return;
-        
-        if (entry.isIntersecting) {
-          console.log('Active slide scrolled into view');
-          // Only play if not manually paused by user
-          if (!userPausedVideos.has(videoElement)) {
-            console.log('Playing video (not manually paused)');
-            if (videoElement.readyState >= 2) {
-              videoElement.play().catch(error => {
-                console.warn('Could not autoplay video:', error);
-              });
-            } else {
-              videoElement.addEventListener('loadeddata', () => {
-                if (!userPausedVideos.has(videoElement)) {
-                  videoElement.play().catch(error => {
-                    console.warn('Could not autoplay video after loading:', error);
-                  });
-                }
-              }, { once: true });
-            }
-          } else {
-            console.log('Video remains paused due to user preference');
-          }
+    // Handle the active video based on visibility and user preference
+    if (isVisible && !userPausedVideos.has(activeVideo)) {
+      if (activeVideo.paused) {
+        // Play only if the video is ready
+        if (activeVideo.readyState >= 2) {
+          activeVideo.play().catch(error => {
+            console.warn('Could not autoplay video:', error);
+          });
         } else {
-          console.log('Active slide scrolled out of view, pausing video');
-          // Use a flag to mark this pause as programmatic, not user-initiated
-          videoElement._programmaticPause = true;
-          videoElement.pause();
-          // Clear the flag after a short delay
-          setTimeout(() => {
-            delete videoElement._programmaticPause;
-          }, 50);
+          // One-time event listener for when video is ready
+          activeVideo.addEventListener('loadeddata', () => {
+            if (!userPausedVideos.has(activeVideo)) {
+              activeVideo.play().catch(error => {
+                console.warn('Could not autoplay video after loading:', error);
+              });
+            }
+          }, { once: true });
         }
       }
-    });
-  }, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.5
-  });
+    } else {
+      // Mark this as a programmatic pause
+      activeVideo._programmaticPause = true;
+      activeVideo.pause();
+      // Clear the flag shortly after
+      setTimeout(() => {
+        delete activeVideo._programmaticPause;
+      }, 50);
+    }
+  }
   
-  // Observer for DOM changes to detect class changes
+  // Throttled version of the handler to reduce event firing
+  const throttledHandler = throttle(handleVideoVisibility, 150);
+  
+  // Set up event listeners for user pause/play actions
+  function setupVideoEventListeners() {
+    document.querySelectorAll('.glide__slide video').forEach(video => {
+      // Remove any existing listeners first (in case this is called multiple times)
+      video.removeEventListener('pause', handleVideoPause);
+      video.removeEventListener('play', handleVideoPlay);
+      
+      // Add the listeners
+      video.addEventListener('pause', handleVideoPause);
+      video.addEventListener('play', handleVideoPlay);
+    });
+  }
+  
+  // Handle user-initiated pause
+  function handleVideoPause(event) {
+    const video = event.target;
+    
+    // Skip if this is our programmatic pause
+    if (video._programmaticPause) return;
+    
+    // Only track user-initiated pauses
+    if (event.isTrusted) {
+      userPausedVideos.add(video);
+    }
+  }
+  
+  // Handle user-initiated play
+  function handleVideoPlay(event) {
+    const video = event.target;
+    
+    // Only handle user-initiated plays
+    if (event.isTrusted) {
+      userPausedVideos.delete(video);
+    }
+  }
+  
+  // Use a single mutation observer for all slides
   const mutationObserver = new MutationObserver(mutations => {
-    // Check if any mutations affected the active class
-    const activeSlideChange = mutations.some(mutation => {
+    let hasActiveSlideChanged = false;
+    
+    mutations.forEach(mutation => {
       if (mutation.type === 'attributes' && 
           mutation.attributeName === 'class' && 
           mutation.target.classList.contains('glide__slide')) {
         
-        // Check if this is a newly active slide
         if (mutation.target.classList.contains('glide__slide--active')) {
-          resetPausedStateOnSlideChange(mutation.target);
-          return true;
+          hasActiveSlideChanged = true;
         }
       }
-      return false;
     });
     
-    if (activeSlideChange) {
-      handleActiveSlideChange();
+    if (hasActiveSlideChanged) {
+      throttledHandler();
     }
   });
   
-  // Add pause event listeners to all videos
-  document.querySelectorAll('.glide__slide video').forEach(video => {
-    // Track when a user deliberately pauses a video
-    video.addEventListener('pause', (event) => {
-      // Skip if this is our programmatic pause (from scrolling out of view)
-      if (video._programmaticPause) {
-        console.log('Ignoring programmatic pause (not user initiated)');
-        return;
+  // Set up all observers and event handlers
+  function initializeVideoControls() {
+    // Set up video pause/play event listeners
+    setupVideoEventListeners();
+    
+    // Observe all slides for class changes (active state)
+    document.querySelectorAll('.glide__slide').forEach(slide => {
+      mutationObserver.observe(slide, { 
+        attributes: true, 
+        attributeFilter: ['class'] 
+      });
+    });
+    
+    // Listen for scroll events
+    window.addEventListener('scroll', throttledHandler);
+    
+    // Listen for window resize
+    window.addEventListener('resize', throttledHandler);
+    
+    // Listen for arrow key navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        // Wait a brief moment for the carousel to update
+        setTimeout(throttledHandler, 50);
       }
-      
-      // Additional check for user-initiated actions
-      if (!event.isTrusted) return;
-      
-      console.log('User manually paused video:', video);
-      userPausedVideos.add(video);
     });
     
-    // When a user manually plays a video, remove it from the paused set
-    video.addEventListener('play', (event) => {
-      // Check if the play was triggered by user action
-      if (!event.isTrusted) return;
-      
-      console.log('User manually played video:', video);
-      userPausedVideos.delete(video);
-    });
-  });
-  
-  // Observe all slides for class changes
-  document.querySelectorAll('.glide__slide').forEach(slide => {
-    // Watch for class changes on all slides
-    mutationObserver.observe(slide, { 
-      attributes: true, 
-      attributeFilter: ['class'] 
-    });
+    // Initial check
+    throttledHandler();
     
-    // Also add the intersection observer to all slides
-    observer.observe(slide);
-  });
+    console.log('Video carousel controls initialized with optimized event handling');
+  }
   
-  // Listen for arrow key navigation as another possible trigger
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-      // Wait a brief moment for the carousel to update the active class
-      setTimeout(handleActiveSlideChange, 50);
+  // Initialize everything
+  initializeVideoControls();
+  
+  // Re-initialize when new slides might be added
+  // (Optional, in case your carousel dynamically adds slides)
+  document.addEventListener('DOMNodeInserted', (e) => {
+    if (e.target && (
+      e.target.classList && e.target.classList.contains('glide__slide') ||
+      e.target.querySelector && e.target.querySelector('.glide__slide')
+    )) {
+      // Wait a brief moment for the DOM to stabilize
+      setTimeout(initializeVideoControls, 100);
     }
   });
-  
-  // Initial check for active slide
-  handleActiveSlideChange();
-  
-  console.log('Slide change detection initialized with user pause tracking');
 });

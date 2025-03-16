@@ -1,3 +1,10 @@
+.glide.videos-slider {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  overflow: visible !important; /* Ensure 3D effect is visible */
+}
+
 .glide__bullets {
   margin: 0 auto;
   width: 100%;
@@ -13,12 +20,16 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  position: relative;
+  position: absolute;
+  top: 35%;
   z-index: 10;
 }
 
 .glide__arrow {
   position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
 }
 
 [data-ref="hero[el]"] {
@@ -28,11 +39,7 @@
   backface-visibility: hidden;
 }
 
-.glide.videos-slider {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  overflow: visible !important; /* Ensure 3D effect is visible */
-}
+
 
 .glide__track {
   overflow: visible !important; /* Ensure 3D effect is visible */
