@@ -102,7 +102,7 @@ function initializeSlider() {
   const slider = new Glide('.videos-slider', {
     focusAt: "center",
     perView: 3,
-    startAt: 3,
+    startAt: 2,
     peek: 0,
     gap: 50,
     autoplay: false,
