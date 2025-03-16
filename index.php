@@ -2,7 +2,7 @@
   /**
    * Plugin Name: Wake the Nile Custom WordPress Plugin
    * Description: Custom WordPress Plugin to add features and extend the website.
-   * Version: 0.0.3
+   * Version: 0.0.4
    * Author: Anthony Coffey
    */
 
@@ -19,9 +19,9 @@
   {
     wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css');
     wp_enqueue_style('glide-css-theme', 'https://cdn.jsdelivr.net/npm/glidejs@2.1.0/dist/css/glide.theme.min.css');
-    wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], '0.0.3');
+    wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], '0.0.4');
     wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide', [  ], null, true);
-    wp_enqueue_script('glide-init', plugin_dir_url(__FILE__) . 'js/glide-init.js', [ 'glide-js' ], '0.0.3', true);
+    wp_enqueue_script('glide-init', plugin_dir_url(__FILE__) . 'js/glide-init.js', [ 'glide-js' ], '0.0.4', true);
   }
 
   /**
@@ -114,7 +114,7 @@
       'video-autoplay',               // Handle for the script
       $plugin_url . 'js/autoplay.js', // Path to the script file
       [  ],                           // Dependencies (none in this case)
-      '0.0.3',                        // Version number
+      '0.0.4',                        // Version number
       true                            // Load in footer (recommended for performance)
     );
   }
