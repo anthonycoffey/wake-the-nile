@@ -15,9 +15,9 @@ function createCoverflowEffect(glide, Components, Events) {
         }
       });
 
-      // Apply transformations with scale for active slide
+      // Apply flat perspective to active slide
       const activeElement = slide.querySelector(elementSelector);
-      activeElement.style.transform = "perspective(2400px) rotateY(0deg) scale(1.15)";
+      activeElement.style.transform = "perspective(2400px) rotateY(0deg)";
       activeElement.style.transformOrigin = "50% 50%";
       this.tiltPrevElements(slide);
       this.tiltNextElements(slide);
@@ -102,9 +102,9 @@ function initializeSlider() {
   const slider = new Glide('.videos-slider', {
     focusAt: "center",
     perView: 3,
-    startAt: 2,
     peek: 0,
     gap: 50,
+    startAt: 2,
     autoplay: false,
     hoverpause: false,
     animationDuration: 1000,
@@ -115,10 +115,7 @@ function initializeSlider() {
       480: { gap: 0, peek: 0, perView: 1 },
       768: { perView: 2 },
       1360: { perView: 3 },
-      1600: { perView: 3 },
-      1960: { perView: 6 },
-      2400: { perView: 6 },  // Added support for even larger screens
-      3000: { perView: 6 }   // Added support for ultra-wide screens
+      1600: { perView: 6 },  // Added support for even larger screens
     }
   }).mount({
     Coverflow: createCoverflowEffect

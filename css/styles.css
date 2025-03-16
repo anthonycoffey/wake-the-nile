@@ -55,7 +55,10 @@ li.glide__slide {
   z-index: 1;
 }
 
-
+/* Center alignment for the active slide */
+.glide__slide--active {
+  z-index: 1;
+}
 
 @media screen and (min-width: 992px) {
   .glide.videos-slider {
