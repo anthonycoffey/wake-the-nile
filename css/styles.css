@@ -1,5 +1,4 @@
 .glide.videos-slider {
-  position: relative;
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   overflow: visible !important; /* Ensure 3D effect is visible */
@@ -20,8 +19,6 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  position: absolute;
-  top: 35%;
   z-index: 10;
 }
 
