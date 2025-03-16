@@ -165,15 +165,34 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize everything
   initializeVideoControls();
   
-  // Re-initialize when new slides might be added
-  // (Optional, in case your carousel dynamically adds slides)
-  document.addEventListener('DOMNodeInserted', (e) => {
-    if (e.target && (
-      e.target.classList && e.target.classList.contains('glide__slide') ||
-      e.target.querySelector && e.target.querySelector('.glide__slide')
-    )) {
-      // Wait a brief moment for the DOM to stabilize
-      setTimeout(initializeVideoControls, 100);
-    }
+  // Replace the deprecated DOMNodeInserted event with a MutationObserver
+  // to monitor when new slides are added
+  const bodyObserver = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        // Check if any of the added nodes are slides or contain slides
+        let shouldReinitialize = false;
+        
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            if (node.classList && node.classList.contains('glide__slide') ||
+                node.querySelector && node.querySelector('.glide__slide')) {
+              shouldReinitialize = true;
+            }
+          }
+        });
+        
+        if (shouldReinitialize) {
+          // Wait a brief moment for the DOM to stabilize
+          setTimeout(initializeVideoControls, 100);
+        }
+      }
+    });
+  });
+  
+  // Start observing the body for added nodes
+  bodyObserver.observe(document.body, {
+    childList: true,
+    subtree: true
   });
 });

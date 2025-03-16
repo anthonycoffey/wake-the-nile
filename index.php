@@ -2,7 +2,7 @@
   /**
    * Plugin Name: Wake the Nile Custom WordPress Plugin
    * Description: Custom WordPress Plugin to add features and extend the website.
-   * Version: 0.0.5
+   * Version: 0.0.6
    * Author: Anthony Coffey
    */
 
@@ -19,9 +19,9 @@
   {
     wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css');
     wp_enqueue_style('glide-css-theme', 'https://cdn.jsdelivr.net/npm/glidejs@2.1.0/dist/css/glide.theme.min.css');
-    wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], '0.0.5');
+    wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], '0.0.6');
     wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide', [  ], null, true);
-    wp_enqueue_script('glide-init', plugin_dir_url(__FILE__) . 'js/glide-init.js', [ 'glide-js' ], '0.0.5', true);
+    wp_enqueue_script('glide-init', plugin_dir_url(__FILE__) . 'js/glide-init.js', [ 'glide-js' ], '0.0.6', true);
   }
 
   /**
@@ -85,11 +85,6 @@
       echo '<button class="glide__arrow glide__arrow--left" data-glide-dir="&lt;"><span class="dashicons dashicons-arrow-left-alt"></span></button>';
       echo '<button class="glide__arrow glide__arrow--right" data-glide-dir="&gt;"><span class="dashicons dashicons-arrow-right-alt"></span></button>';
       echo '</div>';
-      // echo '<div class="glide__bullets" data-glide-el="controls[nav]">';
-      // echo '<button class="glide__bullet" data-glide-dir="=0"></button>';
-      // echo '<button class="glide__bullet" data-glide-dir="=2"></button>';
-      // echo '<button class="glide__bullet" data-glide-dir="=4"></button>';
-      // echo '</div>';
       echo '</div>';
     }
 
@@ -114,7 +109,7 @@
       'video-autoplay',               // Handle for the script
       $plugin_url . 'js/autoplay.js', // Path to the script file
       [  ],                           // Dependencies (none in this case)
-      '0.0.5',                        // Version number
+      '0.0.6',                        // Version number
       true                            // Load in footer (recommended for performance)
     );
   }
