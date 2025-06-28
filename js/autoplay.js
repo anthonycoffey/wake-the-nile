@@ -2,35 +2,37 @@ document.addEventListener('DOMContentLoaded', () => {
   const slider = document.querySelector('.glide');
   if (!slider) return;
 
-  // Simplified Coverflow Effect
-  function simplifiedCoverflow(glide, Components, Events) {
+  // Coverflow Effect
+  function Coverflow(glide, Components, Events) {
     const coverflow = {
-      apply: function() {
+      apply() {
         const slides = Components.Html.slides;
         const activeIndex = glide.index;
+        const perView = glide.settings.perView;
+        const slideWidth = Components.Sizes.slideWidth;
 
         slides.forEach((slide, index) => {
           const videoElement = slide.querySelector('[data-ref="hero[el]"]');
-          if (index === activeIndex) {
-            // Active slide
-            slide.style.zIndex = '2';
-            if (videoElement) {
-              videoElement.style.transform = 'scale(1)';
-              videoElement.style.filter = 'brightness(100%)';
-            }
-          } else {
-            // Inactive slides
-            slide.style.zIndex = '1';
-            if (videoElement) {
-              videoElement.style.transform = 'scale(0.85)';
-              videoElement.style.filter = 'brightness(70%)';
-            }
+          const offset = index - activeIndex;
+          const distance = Math.abs(offset);
+          const scale = 1 - (distance * 0.1);
+          const rotateY = offset * 10;
+          const translateX = offset * (slideWidth / (perView * 1.5));
+          const translateZ = -distance * 50;
+          const opacity = distance > 2 ? 0 : 1;
+
+          slide.style.transform = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scale})`;
+          slide.style.zIndex = 100 - distance;
+          slide.style.opacity = opacity;
+
+          if (videoElement) {
+            videoElement.style.filter = `brightness(${100 - (distance * 15)}%)`;
           }
         });
       }
     };
 
-    Events.on(['mount.after', 'run.after'], () => {
+    Events.on(['mount.after', 'run'], () => {
       coverflow.apply();
     });
 
@@ -132,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Main initialization logic
   if (typeof Glide === 'function') {
     const glide = new Glide(slider, glideOptions).mount({
-      Coverflow: simplifiedCoverflow
+      Coverflow: Coverflow
     });
     new Autoplay(glide, slider);
   } else {

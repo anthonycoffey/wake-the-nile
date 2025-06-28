@@ -1,15 +1,19 @@
-# Active Context: Google Maps API Versioning & Dashicons
+# Active Context: Coverflow Effect Enhancement
 
 ## Current Focus
 
-The current focus is to ensure the stability and maintainability of the Google Maps integration and to provide access to Dashicons on the front end.
+The current focus is to enhance the video slider with a more dynamic and visually appealing coverflow effect, while ensuring it remains performant and responsive.
 
 ## Recent Changes
 
-*   **Investigated Google Maps API Usage**: Analyzed the codebase to determine how the Google Maps and Places APIs are being used. Found that the plugin uses the Maps JavaScript API in the admin and the Maps Embed API on the frontend.
-*   **Researched API Versioning**: Researched Google's recommended versioning practices for the Maps JavaScript API.
-*   **Updated `includes/enqueue.php`**: Modified the script enqueueing to use the `quarterly` channel for the Maps JavaScript API. This provides a more stable and predictable update cycle compared to the `weekly` channel.
-*   **Enqueued Dashicons**: Updated `includes/enqueue.php` to include the `dashicons` stylesheet on the front end, making the icon set available for use in the theme.
+*   **Updated `css/styles.css`**:
+    *   Modified the `.glide__track` to use `overflow: visible`, `transform-style: preserve-3d`, and `perspective: 800px` to create a 3D environment for the slider.
+    *   Updated the `.glide__slide` transition to include `filter` for smoother brightness changes.
+*   **Updated `js/autoplay.js`**:
+    *   Replaced the `simplifiedCoverflow` function with a new `Coverflow` module.
+    *   The new module calculates and applies 3D transformations (`translateX`, `translateZ`, `rotateY`, `scale`) to each slide based on its position relative to the active slide.
+    *   The module also adjusts the `zIndex` and `opacity` of the slides to create a sense of depth.
+    *   The brightness of the video elements is adjusted based on their distance from the center.
 
 ## Next Steps
 
@@ -17,6 +21,7 @@ The current focus is to ensure the stability and maintainability of the Google M
 
 ## Key Learnings & Insights
 
-*   Using the `quarterly` channel for the Google Maps JavaScript API is a best practice for production WordPress plugins to avoid unexpected issues from weekly updates.
-*   It's important to distinguish between the different Google Maps APIs (JavaScript, Embed, Places Web Service) to understand how they are used and how to properly maintain them.
-*   Dashicons can be easily enqueued on the front end using `wp_enqueue_style('dashicons');`.
+*   A classic coverflow effect can be achieved by combining CSS 3D transforms with a JavaScript module that dynamically calculates the position of each slide.
+*   Using `perspective` and `transform-style: preserve-3d` is essential for creating a 3D space.
+*   The `will-change` CSS property can be used to optimize the performance of animations.
+*   It's important to ensure that complex visual effects are responsive and work well on a variety of screen sizes.

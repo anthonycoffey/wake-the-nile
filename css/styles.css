@@ -9,7 +9,9 @@
 }
 
 .glide__track {
-  overflow: hidden; /* Contain the slides */
+  overflow: visible; /* Allow slides to overflow for coverflow */
+  transform-style: preserve-3d;
+  perspective: 800px;
 }
 
 .glide__slides {
@@ -17,7 +19,7 @@
 }
 
 .glide__slide {
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
   display: flex;
   justify-content: center;
   align-items: center;
