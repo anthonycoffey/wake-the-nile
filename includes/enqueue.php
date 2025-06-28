@@ -14,14 +14,13 @@ if (!defined('ABSPATH')) {
  */
 function wtn_enqueue_frontend_assets()
 {
-    // Enqueue Glide.js assets from CDN
-    wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css');
-    wp_enqueue_style('glide-css-theme', 'https://cdn.jsdelivr.net/npm/glidejs@2.1.0/dist/css/glide.theme.min.css');
-    wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide', [], null, true);
+    // Enqueue Swiper.js assets from CDN
+    wp_enqueue_style('swiper-css', 'https://unpkg.com/swiper/swiper-bundle.min.css');
+    wp_enqueue_script('swiper-js', 'https://unpkg.com/swiper/swiper-bundle.min.js', [], null, true);
 
     // Enqueue plugin-specific styles and scripts
     wp_enqueue_style('wtn-styles', plugin_dir_url(WTN_PLUGIN_FILE) . 'css/styles.css', [], WTN_VERSION);
-    wp_enqueue_script('wtn-autoplay', plugin_dir_url(WTN_PLUGIN_FILE) . 'js/autoplay.js', ['glide-js'], WTN_VERSION, true);
+    wp_enqueue_script('wtn-swiper-init', plugin_dir_url(WTN_PLUGIN_FILE) . 'js/swiper-init.js', ['swiper-js'], WTN_VERSION, true);
 
     // Enqueue block-specific styles
     wp_enqueue_style('wtn-blocks-style', plugin_dir_url(WTN_PLUGIN_FILE) . 'css/blocks.css', [], filemtime(plugin_dir_path(WTN_PLUGIN_FILE) . 'css/blocks.css'));
