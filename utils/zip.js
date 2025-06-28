@@ -23,8 +23,9 @@ archive.pipe(output);
 // These paths are relative to the project root, where the script is executed from.
 archive.directory('css/', 'css');
 archive.directory('js/', 'js');
+archive.directory('includes/', 'includes');
 
 // append a file
-archive.file('index.php', { name: 'index.php' });
+archive.file('wake-the-nile.php', { name: 'wake-the-nile.php' });
 
 archive.finalize();
