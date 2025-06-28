@@ -12,6 +12,11 @@
 
 *   The plugin is feature-complete according to the original requirements. Future work will likely involve bug fixes, enhancements, or new features as requested.
 
+## Recent Updates
+
+*   **City/State Block:** Added a new `show-fields/city-state` block to display show locations.
+*   **Tickets Link Enhancement:** The `show-fields/tickets-link` block now opens links in a new tab by default for a better user experience.
+
 ## Current Status
 
 *   **Version:** 0.1.9

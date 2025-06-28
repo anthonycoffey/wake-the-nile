@@ -2,7 +2,16 @@
 
 ## Architectural Overview
 
-The plugin follows a standard WordPress architecture, extending its functionality through hooks, shortcodes, and custom Gutenberg blocks. It is designed to be self-contained, minimizing dependencies on other plugins.
+The plugin follows a modular, file-based architecture standard for WordPress development. It is designed to be self-contained, minimizing dependencies on other plugins. The main plugin file (`wake-the-nile.php`) acts as the entry point, defining constants and loading functionality from organized files within the `includes/` directory.
+
+### File Structure
+-   **`wake-the-nile.php`**: Main plugin file. Handles initialization, defines constants, and includes all other necessary files.
+-   **`includes/`**: Directory containing separated logic.
+    -   `activation.php`: Handles logic for plugin activation hooks (e.g., creating default files).
+    -   `enqueue.php`: Manages the enqueueing of all CSS and JavaScript assets for both the frontend and the admin area.
+    -   `shortcodes.php`: Defines all custom shortcodes (e.g., `[glide]`).
+    -   `blocks.php`: Contains the registration and server-side rendering logic for all custom Gutenberg blocks.
+    -   `settings.php`: Manages the creation and rendering of the admin settings page.
 
 ## Key Design Patterns
 
