@@ -7,6 +7,7 @@
 *   **Google Maps Integration:** The Google Maps block is functional, provided a valid API key is entered in the settings. The Maps JavaScript API is now loaded using the stable `quarterly` channel.
 *   **Settings Page:** The admin settings page for the Google Maps API key is present and functional.
 *   **Plugin Activation:** The activation hook correctly creates the necessary JS and CSS files.
+*   **Dashicons on Frontend:** The Dashicons icon library is now available on the front end of the site.
 
 ## What's Left to Build
 
@@ -14,6 +15,7 @@
 
 ## Recent Updates
 
+*   **Dashicons Enqueued:** The Dashicons stylesheet is now enqueued on the front end, making it available for use in the theme.
 *   **Google Maps API Stability:** Updated the Google Maps JavaScript API to use the `quarterly` version channel. This improves the stability and predictability of the map feature by avoiding weekly, potentially breaking changes.
 *   **City/State Block:** Added a new `show-fields/city-state` block to display show locations.
 *   **Tickets Link Enhancement:** The `show-fields/tickets-link` block now opens links in a new tab by default for a better user experience.

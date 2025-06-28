@@ -25,6 +25,9 @@ function wtn_enqueue_frontend_assets()
 
     // Enqueue block-specific styles
     wp_enqueue_style('wtn-blocks-style', plugin_dir_url(WTN_PLUGIN_FILE) . 'css/blocks.css', [], filemtime(plugin_dir_path(WTN_PLUGIN_FILE) . 'css/blocks.css'));
+
+    // Enqueue Dashicons
+    wp_enqueue_style('dashicons');
 }
 add_action('wp_enqueue_scripts', 'wtn_enqueue_frontend_assets');
 

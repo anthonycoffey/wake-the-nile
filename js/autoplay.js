@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       this.glide = glide;
       this.slider = slider;
       this.userPausedVideos = new Set();
-      this.isSliderVisible = false; // Default to not visible
+      this.isSliderVisible = true; // Default to not visible
       this._init();
     }
 
