@@ -48,5 +48,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         }
+
+        function setupUnmute() {
+            const overlays = document.querySelectorAll('.unmute-overlay');
+            const allVideos = document.querySelectorAll('.wtn-video-slider video');
+
+            overlays.forEach(overlay => {
+                overlay.addEventListener('click', function() {
+                    // Unmute all videos
+                    allVideos.forEach(video => {
+                        video.muted = false;
+                    });
+
+                    // Hide all overlays
+                    overlays.forEach(o => o.classList.add('hidden'));
+
+                    // Ensure the currently active video continues playing with sound
+                    const activeSlide = swiper.slides[swiper.activeIndex];
+                    const activeVideo = activeSlide.querySelector('video');
+                    if (activeVideo) {
+                        activeVideo.play().catch(error => {
+                            console.error("Video autoplay with sound failed:", error);
+                        });
+                    }
+                }, { once: true }); // Ensure this only runs once per overlay
+            });
+        }
+
+        setupUnmute();
     }
 });

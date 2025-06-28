@@ -12,10 +12,42 @@
 }
 
 .swiper-slide {
+  position: relative; /* Needed to position the overlay */
   background-position: center;
   background-size: cover;
   width: 300px;
   /* Height will be auto based on video aspect ratio */
+}
+
+.unmute-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  border-radius: 10px; /* Match video border-radius */
+}
+
+.unmute-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.unmute-overlay .dashicons {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  line-height: 1;
 }
 
 .swiper-slide video {

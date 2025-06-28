@@ -1,6 +1,6 @@
 {
   "name": "wake-the-nile",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "description": "Wake the Nile is a custom WordPress plugin that extends the functionality of a WordPress site by adding custom fields, styles, and interactive elements. The plugin includes a custom slider implementation using Glide.js and various enhancements to improve the site's UX.",
   "main": "index.js",
   "scripts": {

@@ -41,6 +41,7 @@ function wtn_video_coverflow_shortcode($atts)
             $video_url = get_field('video_url');
             if ($video_url) {
                 echo '<div class="swiper-slide">';
+                echo '<div class="unmute-overlay"><span class="dashicons dashicons-controls-volumeon"></span> Tap to Unmute</div>';
                 echo '<video controls muted preload="metadata" playsinline>';
                 echo '<source src="' . esc_url($video_url) . '" type="video/mp4">';
                 echo 'Your browser does not support the video tag.';
