@@ -33,7 +33,7 @@ function createCoverflowEffect(glide, Components, Events) {
         if (element) {
           element.style.transformOrigin = "100% 50%";
           // Adjust the angle based on position - prevent extreme angles
-          const angle = Math.min(20 * (i + 1), 60);
+          const angle = Math.min(15 * (i + 1), 45); // Reduced angle
           element.style.transform = `perspective(2400px) rotateY(${angle}deg)`;
         }
       }
@@ -49,7 +49,7 @@ function createCoverflowEffect(glide, Components, Events) {
         if (element) {
           element.style.transformOrigin = "0% 50%";
           // Adjust the angle based on position - prevent extreme angles
-          const angle = Math.min(20 * (i + 1), 60);
+          const angle = Math.min(15 * (i + 1), 45); // Reduced angle
           element.style.transform = `perspective(2400px) rotateY(${-angle}deg)`;
         }
       }
@@ -101,9 +101,9 @@ function getNextSiblings(element) {
 function initializeSlider() {
   const slider = new Glide('.videos-slider', {
     focusAt: "center",
-    perView: 6,
+    perView: 3, // Default perView
     peek: 0,
-    gap: 50,
+    gap: 20, // Default gap
     startAt: 2,
     autoplay: false,
     hoverpause: false,
@@ -113,9 +113,10 @@ function initializeSlider() {
     perTouch: 1,
     breakpoints: {
       480: { gap: 20, peek: 40, perView: 1 },
-      768: { perView: 2 },
-      1360: { perView: 3 },
-      1600: { perView: 6 },
+      768: { perView: 2, gap: 20 },
+      1360: { perView: 3, gap: 30 },
+      1600: { perView: 4, gap: 40 }, // Changed perView to 4 and adjusted gap
+      1920: { perView: 5, gap: 50 }  // Added a new breakpoint for larger screens
     }
   }).mount({
     Coverflow: createCoverflowEffect

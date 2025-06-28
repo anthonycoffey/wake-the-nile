@@ -34,7 +34,7 @@
 
 .show-tickets-link .tickets-button {
     display: inline-block;
-    background-color: #e63946;
+    /* background-color: #e63946; */
     color: #fff;
     padding: 8px 16px;
     border-radius: 4px;
@@ -44,12 +44,12 @@
 }
 
 .show-tickets-link .tickets-button:hover {
-    background-color: #c1121f;
+    /* background-color: #c1121f; */
     text-decoration: none;
 }
 
 .show-tickets-link .tickets-text-link {
-    color: #e63946;
+    /* color: #e63946; */
     text-decoration: none;
     font-weight: 600;
 }
