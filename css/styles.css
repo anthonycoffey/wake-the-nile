@@ -1,92 +1,90 @@
-.glide.videos-slider {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  overflow: visible !important; /* Ensure 3D effect is visible */
+.glide-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  position: relative;
 }
 
-.glide__bullets {
-  margin: 0 auto;
-  width: 100%;
+.glide.videos-slider {
+  position: relative;
+}
+
+.glide__track {
+  overflow: hidden; /* Contain the slides */
+}
+
+.glide__slides {
+  align-items: center; /* Vertically center slides */
+}
+
+.glide__slide {
+  transition: transform 0.4s ease, opacity 0.4s ease;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-.glide__bullets > * {
-  margin: 0 10px;
+.glide__slide video {
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  will-change: transform, filter;
 }
 
 .glide__arrows {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  z-index: 10;
+  margin-top: 2rem; /* Space above the arrows */
+  padding: 0 1rem; /* Add some padding to keep arrows from the edges */
+  box-sizing: border-box;
+  position: relative;
 }
 
 .glide__arrow {
   position: relative;
-  width: 45px;
-  height: 45px;
-  border-radius: 100%;
-}
-
-[data-ref="hero[el]"] {
-  transition: transform 0.5s ease-in;
-  will-change: transform;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-}
-
-
-
-.glide__track {
-  overflow: visible !important; /* Ensure 3D effect is visible */
-}
-
-ul.glide__slides {
-  padding-bottom: 2rem;
+  pointer-events: all; /* Make buttons clickable */
+  border: none;
+  background: rgba(255, 255, 255, 0.7);
+  color: #333;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-li.glide__slide {
-  max-width: 100%; /* Changed from 350px to 100% */
-  transition: all 0.5s ease;
+.glide__arrow:hover {
+  background: #fff;
 }
 
-/* Center alignment for the active slide */
-.glide__slide--active {
-  z-index: 1;
+/* No margin needed now as space-between will handle it */
+
+/* Loading State Styles */
+.glide-container.loading .glide,
+.glide-container.loading .glide__arrows {
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* Center alignment for the active slide */
-.glide__slide--active {
-  z-index: 1;
+.glide-container.loaded .glide,
+.glide-container.loaded .glide__arrows {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease;
 }
 
-@media screen and (min-width: 992px) {
-  .glide.videos-slider {
-    margin-bottom: 4rem;
-  }
-  
-  ul.glide__slides {
-    padding-bottom: 8rem;
-  }
-}
-
-/* Additional styles for wider screens */
-@media screen and (min-width: 1600px) {
-  .glide.videos-slider {
-    max-width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media screen and (min-width: 2400px) {
-  .glide.videos-slider {
-    max-width: 85%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.slider-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: #333;
+  z-index: 10;
 }

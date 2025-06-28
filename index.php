@@ -2,13 +2,21 @@
   /**
    * Plugin Name: Wake the Nile Custom WordPress Plugin
    * Description: Custom WordPress Plugin to add features and extend the website.
-   * Version: 0.0.7
+   * Version: 0.1.6
    * Author: Anthony Coffey
    */
 
   if (! defined('ABSPATH')) {
     exit;
   }
+
+  if ( ! function_exists( 'get_plugin_data' ) ) {
+    require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+  }
+  
+  $plugin_data = get_plugin_data( __FILE__ );
+  $plugin_version = $plugin_data['Version'];
+  define('WAKE_THE_NILE_VERSION', $plugin_version);
 
   add_theme_support('custom-fields');
 
@@ -21,9 +29,9 @@
     wp_enqueue_style('dashicons');
     wp_enqueue_style('glide-css', 'https://cdn.jsdelivr.net/npm/@glidejs/glide/dist/css/glide.core.min.css');
     wp_enqueue_style('glide-css-theme', 'https://cdn.jsdelivr.net/npm/glidejs@2.1.0/dist/css/glide.theme.min.css');
-    wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], '0.0.7');
+    wp_enqueue_style('glide-css-styles', plugin_dir_url(__FILE__) . 'css/styles.css', [  ], WAKE_THE_NILE_VERSION);
     wp_enqueue_script('glide-js', 'https://cdn.jsdelivr.net/npm/@glidejs/glide', [  ], null, true);
-    wp_enqueue_script('glide-init', plugin_dir_url(__FILE__) . 'js/glide-init.js', [ 'glide-js' ], '0.0.7', true);
+    wp_enqueue_script('glide-init', plugin_dir_url(__FILE__) . 'js/glide-init.js', [ 'glide-js' ], WAKE_THE_NILE_VERSION, true);
   }
 
   /**
@@ -57,10 +65,11 @@
 
       $videos_query = new WP_Query($args);
 
+      echo '<div class="glide-container">';
       echo '<div class="glide videos-slider">';
       echo '<div class="glide__track" data-glide-el="track">';
       echo '<ul class="glide__slides">';
-      echo '<!-- Slides would be populated dynamically or hardcoded here -->';
+      // Slides would be populated dynamically or hardcoded here
 
       if ($videos_query->have_posts()) {
         while ($videos_query->have_posts()) {
@@ -82,12 +91,13 @@
         echo '<li class="glide__slide">No videos found</li>';
       }
       echo '</ul>';
-      echo '</div>';
+      echo '</div>'; // .glide__track
       echo '<div class="glide__arrows" data-glide-el="controls">';
       echo '<button class="glide__arrow glide__arrow--left" data-glide-dir="&lt;"><span class="dashicons dashicons-arrow-left-alt"></span></button>';
       echo '<button class="glide__arrow glide__arrow--right" data-glide-dir="&gt;"><span class="dashicons dashicons-arrow-right-alt"></span></button>';
-      echo '</div>';
-      echo '</div>';
+      echo '</div>'; // .glide__arrows
+      echo '</div>'; // .glide
+      echo '</div>'; // .glide-container
     }
 
     // Return the buffered content
@@ -111,7 +121,7 @@
       'video-autoplay',               // Handle for the script
       $plugin_url . 'js/autoplay.js', // Path to the script file
       [  ],                           // Dependencies (none in this case)
-      '0.0.7',                        // Version number
+      WAKE_THE_NILE_VERSION,                        // Version number
       true                            // Load in footer (recommended for performance)
     );
   }
