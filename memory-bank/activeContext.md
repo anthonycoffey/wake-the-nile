@@ -1,19 +1,15 @@
-# Active Context: Coverflow Effect Implementation from Example
+# Active Context: Google Maps API Versioning & Dashicons
 
 ## Current Focus
 
-The current focus is to implement the coverflow effect from the Glide.js website example, ensuring it is responsive and performant.
+The current focus is to ensure the stability and maintainability of the Google Maps integration and to provide access to Dashicons on the front end.
 
 ## Recent Changes
 
-*   **Updated `includes/shortcodes.php`**:
-    *   Modified the `[glide]` shortcode to generate the HTML structure from the example, including the `frames__item` and `frame` elements.
-    *   Updated the class names for the slider container and arrows to match the example.
-*   **Updated `css/styles.css`**:
-    *   Replaced the existing slider styles with the styles from the example.
-*   **Updated `js/autoplay.js`**:
-    *   Replaced the previous `Coverflow` module with the one from the example.
-    *   Updated the `glideOptions` to match the settings from the example.
+*   **Investigated Google Maps API Usage**: Analyzed the codebase to determine how the Google Maps and Places APIs are being used. Found that the plugin uses the Maps JavaScript API in the admin and the Maps Embed API on the frontend.
+*   **Researched API Versioning**: Researched Google's recommended versioning practices for the Maps JavaScript API.
+*   **Updated `includes/enqueue.php`**: Modified the script enqueueing to use the `quarterly` channel for the Maps JavaScript API. This provides a more stable and predictable update cycle compared to the `weekly` channel.
+*   **Enqueued Dashicons**: Updated `includes/enqueue.php` to include the `dashicons` stylesheet on the front end, making the icon set available for use in the theme.
 
 ## Next Steps
 
@@ -21,5 +17,6 @@ The current focus is to implement the coverflow effect from the Glide.js website
 
 ## Key Learnings & Insights
 
-*   When implementing a complex visual effect from an example, it's crucial to replicate the HTML structure, CSS, and JavaScript as closely as possible.
-*   Minified JavaScript can be difficult to read, but it's possible to extract the key information by analyzing the code structure and looking for familiar patterns.
+*   Using the `quarterly` channel for the Google Maps JavaScript API is a best practice for production WordPress plugins to avoid unexpected issues from weekly updates.
+*   It's important to distinguish between the different Google Maps APIs (JavaScript, Embed, Places Web Service) to understand how they are used and how to properly maintain them.
+*   Dashicons can be easily enqueued on the front end using `wp_enqueue_style('dashicons');`.

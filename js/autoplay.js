@@ -2,84 +2,58 @@ document.addEventListener('DOMContentLoaded', () => {
   const slider = document.querySelector('.glide');
   if (!slider) return;
 
-  const c = '[data-ref="hero[el]"]';
+  // Simplified Coverflow Effect
+  function simplifiedCoverflow(glide, Components, Events) {
+    const coverflow = {
+      apply: function() {
+        const slides = Components.Html.slides;
+        const activeIndex = glide.index;
 
-  function Coverflow(e, t, n) {
-    const i = {
-      tilt: function (e) {
-        e.querySelector(c).style.transform = "perspective(1500px) rotateY(0deg)";
-        this.tiltPrevElements(e);
-        this.tiltNextElements(e);
-      },
-      tiltPrevElements: function (e) {
-        for (
-          var t = (function (e) {
-            var t = [];
-            if (e)
-              for (; (e = e.previousElementSibling);) t.push(e);
-            return t;
-          })(e),
-          n = 0; n < t.length; n++
-        ) {
-          var i = t[n].querySelector(c);
-          i.style.transformOrigin = "100% 50%";
-          i.style.transform = "perspective(1500px) rotateY(" + 20 * Math.max(n, 2) + "deg)";
-        }
-      },
-      tiltNextElements: function (e) {
-        for (
-          var t = (function (e) {
-            var t = [];
-            if (e)
-              for (; (e = e.nextElementSibling);) t.push(e);
-            return t;
-          })(e),
-          n = 0; n < t.length; n++
-        ) {
-          var i = t[n].querySelector(c);
-          i.style.transformOrigin = "0% 50%";
-          i.style.transform = "perspective(1500px) rotateY(" + -20 * Math.max(n, 2) + "deg)";
-        }
+        slides.forEach((slide, index) => {
+          const videoElement = slide.querySelector('[data-ref="hero[el]"]');
+          if (index === activeIndex) {
+            // Active slide
+            slide.style.zIndex = '2';
+            if (videoElement) {
+              videoElement.style.transform = 'scale(1)';
+              videoElement.style.filter = 'brightness(100%)';
+            }
+          } else {
+            // Inactive slides
+            slide.style.zIndex = '1';
+            if (videoElement) {
+              videoElement.style.transform = 'scale(0.85)';
+              videoElement.style.filter = 'brightness(70%)';
+            }
+          }
+        });
       }
     };
 
-    n.on(["mount.after", "run"], () => {
-      i.tilt(t.Html.slides[e.index]);
+    Events.on(['mount.after', 'run.after'], () => {
+      coverflow.apply();
     });
 
-    return i;
+    return coverflow;
   }
 
   // Glide.js options object
   const glideOptions = {
     type: 'carousel',
     focusAt: 'center',
+    perView: 3,
+    gap: 100,
     startAt: 1,
-    perView: 6,
-    peek: 50,
-    gap: 30,
     autoplay: false, // Keep this false, we are handling autoplay manually
-    animationDuration: 1000,
-    rewindDuration: 2000,
-    touchRatio: .25,
-    perTouch: 1,
+    animationDuration: 500,
     breakpoints: {
-      480: {
-        gap: 15,
-        peek: 75,
-        perView: 1
+      992: {
+        perView: 3,
+        gap: 30
       },
       768: {
-        perView: 2
-      },
-      1360: {
-        perView: 3
-      },
-      1600: {
-        perView: 4
-      },
-      1960: {
-        perView: 5
+        perView: 1,
+        gap: 20
       }
     }
   };
@@ -158,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Main initialization logic
   if (typeof Glide === 'function') {
     const glide = new Glide(slider, glideOptions).mount({
-      Coverflow: Coverflow
+      Coverflow: simplifiedCoverflow
     });
     new Autoplay(glide, slider);
   } else {
