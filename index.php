@@ -2,7 +2,7 @@
   /**
    * Plugin Name: Wake the Nile Custom WordPress Plugin
    * Description: Custom WordPress Plugin to add features and extend the website.
-   * Version: 0.2.0
+   * Version: 0.2.1
    * Author: Anthony Coffey
    */
 
