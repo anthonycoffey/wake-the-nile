@@ -1,0 +1,23 @@
+{
+  "name": "wake-the-nile",
+  "version": "0.2.0",
+  "description": "Wake the Nile is a custom WordPress plugin that extends the functionality of a WordPress site by adding custom fields, styles, and interactive elements. The plugin includes a custom slider implementation using Glide.js and various enhancements to improve the site's UX.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "zip": "node utils/zip.js"
+  },
+  "devDependencies": {
+    "archiver": "^5.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anthonycoffey/wake-the-nile.git"
+  },
+  "author": "anthonycoffey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anthonycoffey/wake-the-nile/issues"
+  },
+  "homepage": "https://github.com/anthonycoffey/wake-the-nile#readme"
+}
