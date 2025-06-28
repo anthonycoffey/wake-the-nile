@@ -14,15 +14,16 @@
 
 /* Show Venue Name Block */
 .show-venue-name {
-    font-weight: 800;
+    font-weight: 700;
     font-size: 1em;
     margin-bottom: 8px;
 }
 
 /* Show Date/Time Block */
 .show-date-time {
-    margin-bottom: 8px;
-    color: #f3f3f3;
+    color: #ddae2d;
+    font-weight: bold;
+    font-size: 120%
 }
 
 /* Tickets Link Block */
@@ -33,14 +34,21 @@
 }
 
 .show-tickets-link .tickets-button {
-    display: inline-block;
-    /* background-color: #e63946; */
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 800;
-    transition: background-color 0.3s ease;
+  color: #ddae2d;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 2px;
+  background: transparent;
+  border: 1px solid #ddae2d;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.show-tickets-link .tickets-button:hover {
+  background-color: #212121;
+  text-decoration: none;
+  border-color: #212121;
 }
 
 .show-tickets-link .tickets-button:hover {
@@ -76,7 +84,7 @@
 
 .show-google-map .map-directions a {
     display: inline-block;
-    color: #333;
+    color: #ddae2d;
     text-decoration: none;
     font-size: 0.9em;
 }

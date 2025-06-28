@@ -46,7 +46,7 @@ function wtn_register_show_field_blocks()
         'attributes'      => [
             'linkText' => [
                 'type'    => 'string',
-                'default' => 'Buy Tickets',
+                'default' => 'Get Tickets',
             ],
             'buttonStyle' => [
                 'type'    => 'boolean',
@@ -176,7 +176,7 @@ function wtn_render_tickets_link_block($attributes, $content, $block)
         return '';
     }
 
-    $link_text       = !empty($attributes['linkText']) ? $attributes['linkText'] : 'Buy Tickets';
+    $link_text       = !empty($attributes['linkText']) ? $attributes['linkText'] : 'Get Tickets';
     $button_style    = isset($attributes['buttonStyle']) ? $attributes['buttonStyle'] : true;
     $opens_in_new_tab = isset($attributes['opensInNewTab']) ? $attributes['opensInNewTab'] : true;
 

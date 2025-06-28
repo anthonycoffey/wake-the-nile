@@ -139,7 +139,7 @@ function wtn_create_blocks_js_content()
         attributes: {
             linkText: {
                 type: 'string',
-                default: 'Buy Tickets',
+                default: 'Get Tickets',
             },
             buttonStyle: {
                 type: 'boolean',

@@ -38,7 +38,7 @@ function wtn_enqueue_admin_assets()
     if (!empty($api_key)) {
         wp_enqueue_script(
             'google-maps',
-            'https://maps.googleapis.com/maps/api/js?key=' . esc_attr($api_key) . '&libraries=places',
+            'https://maps.googleapis.com/maps/api/js?key=' . esc_attr($api_key) . '&libraries=places&v=quarterly',
             [],
             null,
             true

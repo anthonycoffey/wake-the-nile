@@ -107,3 +107,29 @@
     height: 40px; /* Smaller arrows */
   }
 }
+
+/* Default icon styles for large screens */
+.glide__arrow .dashicons {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  line-height: 1;
+}
+
+/* For tablets and smaller desktops */
+@media (max-width: 768px) {
+  .glide__arrow .dashicons {
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* For mobile phones */
+@media (max-width: 480px) {
+  .glide__arrow .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
