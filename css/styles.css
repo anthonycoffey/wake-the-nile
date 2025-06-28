@@ -71,13 +71,13 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .swiper-slide {
-    width: 240px; /* Adjust slide width for smaller screens */
+    width: 280px; /* Adjust slide width for smaller screens */
   }
 }
 
 @media (max-width: 480px) {
   .swiper-slide {
-    width: 180px; /* Further adjust for mobile */
+    width: 220px; /* Further adjust for mobile */
   }
 
   .swiper-button-next,
