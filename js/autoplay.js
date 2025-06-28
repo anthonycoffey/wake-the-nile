@@ -2,91 +2,82 @@ document.addEventListener('DOMContentLoaded', () => {
   const slider = document.querySelector('.glide');
   if (!slider) return;
 
-  const container = slider.closest('.glide-container');
-  if (!container) return;
+  // Simplified Coverflow Effect
+  function simplifiedCoverflow(glide, Components, Events) {
+    const coverflow = {
+      apply: function() {
+        const slides = Components.Html.slides;
+        const activeIndex = glide.index;
 
-  class AssetLoader {
-    constructor(sliderContainer) {
-      this.container = sliderContainer;
-      this.assets = this._discoverAssets();
-      this._createLoaderElement();
-    }
-
-    _discoverAssets() {
-      const videos = Array.from(this.container.querySelectorAll('video'));
-      const images = Array.from(this.container.querySelectorAll('img'));
-      return [...videos, ...images];
-    }
-
-    _createLoaderElement() {
-      this.loaderElement = document.createElement('div');
-      this.loaderElement.className = 'slider-loading';
-      this.loaderElement.textContent = 'Loading...';
-      this.container.appendChild(this.loaderElement);
-      this.container.classList.add('loading');
-    }
-
-    load() {
-      if (this.assets.length === 0) {
-        this._onLoadComplete();
-        return Promise.resolve();
-      }
-
-      const promises = this.assets.map(asset => {
-        return new Promise((resolve, reject) => {
-          if (asset.tagName === 'VIDEO') {
-            if (asset.readyState >= 2) {
-              resolve();
-            } else {
-              asset.addEventListener('loadeddata', () => resolve(), { once: true });
-              asset.addEventListener('error', () => reject(new Error(`Failed to load video: ${asset.src}`)), { once: true });
+        slides.forEach((slide, index) => {
+          const videoElement = slide.querySelector('[data-ref="hero[el]"]');
+          if (index === activeIndex) {
+            // Active slide
+            slide.style.zIndex = '2';
+            if (videoElement) {
+              videoElement.style.transform = 'scale(1)';
+              videoElement.style.filter = 'brightness(100%)';
             }
-          } else if (asset.tagName === 'IMG') {
-            if (asset.complete) {
-              resolve();
-            } else {
-              asset.addEventListener('load', () => resolve(), { once: true });
-              asset.addEventListener('error', () => reject(new Error(`Failed to load image: ${asset.src}`)), { once: true });
+          } else {
+            // Inactive slides
+            slide.style.zIndex = '1';
+            if (videoElement) {
+              videoElement.style.transform = 'scale(0.85)';
+              videoElement.style.filter = 'brightness(70%)';
             }
           }
         });
-      });
+      }
+    };
 
-      return Promise.all(promises)
-        .then(() => this._onLoadComplete())
-        .catch(error => {
-          console.error('Error loading assets:', error);
-          this._onLoadComplete(); // Still show slider even if some assets fail
-        });
-    }
+    Events.on(['mount.after', 'run.after'], () => {
+      coverflow.apply();
+    });
 
-    _onLoadComplete() {
-      this.container.classList.remove('loading');
-      this.container.classList.add('loaded');
-      if (this.loaderElement) {
-        this.loaderElement.remove();
+    return coverflow;
+  }
+
+  // Glide.js options object
+  const glideOptions = {
+    type: 'carousel',
+    focusAt: 'center',
+    perView: 3,
+    gap: 100,
+    startAt: 1,
+    autoplay: false, // Keep this false, we are handling autoplay manually
+    animationDuration: 500,
+    breakpoints: {
+      992: {
+        perView: 3,
+        gap: 30
+      },
+      768: {
+        perView: 1,
+        gap: 20
       }
     }
-  }
+  };
 
   class Autoplay {
     constructor(glide, slider) {
       this.glide = glide;
       this.slider = slider;
       this.userPausedVideos = new Set();
+      this.isSliderVisible = false; // Default to not visible
       this._init();
     }
 
     _init() {
-      this.glide.on(['mount.after', 'run'], () => {
-        this.handleVisibilityChange();
+      // The core fix: use 'run.after' to ensure the active class is set
+      this.glide.on(['mount.after', 'run.after'], () => {
+        this.handlePlayback();
       });
 
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach(entry => {
             this.isSliderVisible = entry.isIntersecting;
-            this.handleVisibilityChange();
+            this.handlePlayback();
           });
         },
         { threshold: 0.5 }
@@ -98,32 +89,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     _setupVideoEventListeners() {
       this.slider.querySelectorAll('video').forEach(video => {
+        // When a user manually pauses a video, add it to our set
         video.addEventListener('pause', (e) => {
           if (e.isTrusted) this.userPausedVideos.add(video);
         });
+        // When a user manually plays a video, remove it from our set
         video.addEventListener('play', (e) => {
           if (e.isTrusted) this.userPausedVideos.delete(video);
         });
       });
     }
 
-    handleVisibilityChange() {
+    handlePlayback() {
       const activeSlide = this.slider.querySelector('.glide__slide--active');
       if (!activeSlide) return;
 
-      // Pause all non-active videos
+      // Pause all videos in non-active slides
       this.slider.querySelectorAll('.glide__slide:not(.glide__slide--active) video').forEach(video => {
-        if (!video.paused) video.pause();
+        if (!video.paused) {
+          video.pause();
+        }
       });
 
       const activeVideo = activeSlide.querySelector('video');
       if (!activeVideo) return;
 
+      // If the slider is visible on screen and the user has not manually paused this video
       if (this.isSliderVisible && !this.userPausedVideos.has(activeVideo)) {
+        // If the video is paused, play it
         if (activeVideo.paused) {
-          activeVideo.play().catch(e => console.warn("Autoplay prevented:", e));
+          activeVideo.play().catch(e => console.warn("Autoplay was prevented by the browser."));
         }
       } else {
+        // Otherwise, pause the video
         if (!activeVideo.paused) {
           activeVideo.pause();
         }
@@ -132,17 +130,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Main initialization logic
-  const assetLoader = new AssetLoader(container);
-  assetLoader.load().then(() => {
-    // glideOptions and simplifiedCoverflow are now expected to be in the global scope
-    // from glide-init.js
-    if (typeof Glide === 'function' && typeof glideOptions !== 'undefined' && typeof simplifiedCoverflow !== 'undefined') {
-      const glide = new Glide(slider, glideOptions).mount({
-        Coverflow: simplifiedCoverflow
-      });
-      new Autoplay(glide, slider);
-    } else {
-      console.error('Glide.js or its configuration is not available.');
-    }
-  });
+  if (typeof Glide === 'function') {
+    const glide = new Glide(slider, glideOptions).mount({
+      Coverflow: simplifiedCoverflow
+    });
+    new Autoplay(glide, slider);
+  } else {
+    console.error('Glide.js is not available.');
+  }
 });

@@ -1,7 +1,6 @@
 .glide-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 0;
   position: relative;
 }
 
@@ -36,7 +35,7 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: 2rem; /* Space above the arrows */
+  margin-top: 1rem; /* Space above the arrows */
   padding: 0 1rem; /* Add some padding to keep arrows from the edges */
   box-sizing: border-box;
   position: relative;
@@ -85,6 +84,26 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 1.5rem;
-  color: #333;
+  color: #e6e6e6;
   z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .glide__slide-inner {
+    display: flex;
+    justify-content: center; /* Center the video horizontally */
+  }
+
+  .glide__slide video {
+    max-width: 80%; /* Reduce video size */
+  }
+
+  .glide__arrows {
+    margin-top: 1rem; /* Reduce space above arrows */
+  }
+
+  .glide__arrow {
+    width: 40px; /* Smaller arrows */
+    height: 40px; /* Smaller arrows */
+  }
 }

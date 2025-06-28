@@ -1,31 +1,30 @@
-# Active Context: Video Slider Re-Implementation
+# Active Context: Video Slider Mobile Responsiveness
 
 ## Current Focus
 
-The task is to fix the video slider's off-center track and incorrect button behavior on desktop, aiming for a classic coverflow look and feel. The previous fix was insufficient.
+The primary task is to improve the responsiveness of the video slider on small mobile screens, where the content and navigation buttons were being vertically clipped. The solution must respect the aspect ratio of the portrait videos.
 
 ## Recent Changes
 
 *   **`js/glide-init.js`**:
-    *   Replaced the complex, rotation-based coverflow effect with a simplified version that uses scaling (`transform: scale(0.85)`) and brightness to create a more stable, classic coverflow appearance.
-    *   Updated the Glide.js options for a `carousel` type, with `perView: 3` on desktop and `perView: 1` on tablet/mobile, ensuring the centered slide is always the focus.
+    *   Adjusted the Glide.js `breakpoints` configuration for mobile screens (`max-width: 768px`).
+    *   Reduced the `gap` between slides from `100` to `20` to decrease the overall width and prevent unnecessary horizontal space when `perView` is 1.
 
 *   **`css/styles.css`**:
-    *   Completely refactored the slider CSS.
-    *   Removed `overflow: visible` and instead wrapped the slider in a `.glide-container` which has a `max-width` and `overflow: hidden` to properly center and contain the slider.
-    *   Updated slide styles to support the new scaling effect and ensure vertical alignment.
-    *   Corrected the positioning of the navigation arrows to be on the left and right sides below the slider, using `justify-content: space-between`.
-
-*   **`index.php`**:
-    *   Added the new `.glide-container` wrapper div around the slider HTML in the `glide_shortcode` function to enable the new centering and containment strategy.
-    *   Fixed a critical bug in the HTML generation for the right navigation arrow.
+    *   Added a new media query for mobile screens (`max-width: 768px`).
+    *   Reduced the vertical `padding` on the main `.glide-container`.
+    *   Reduced the `margin-top` on the `.glide__arrows` container to bring the navigation closer to the slider.
+    *   Decreased the `width` and `height` of the `.glide__arrow` buttons to make them more proportional to smaller screens.
+    *   Made the video container (`.glide__slide-inner`) a flex container to center the video.
+    *   Reduced the `max-width` of the video itself to `80%` on mobile to decrease its overall size and prevent vertical clipping of the navigation.
 
 ## Next Steps
 
-1.  Verify that the new coverflow implementation is centered, responsive, and that the navigation works as expected on all screen sizes.
+1.  The final requested change to the video slider has been implemented.
 2.  Await further instructions.
 
 ## Key Learnings & Insights
 
-*   Complex visual effects like coverflow often require a combination of proper HTML structure (wrapper elements), CSS for containment (`overflow: hidden`), and simplified JavaScript logic. Relying only on transforms without proper containment can lead to layout issues.
-*   A "classic" coverflow effect can be achieved more reliably with scaling and opacity/filter changes rather than complex 3D rotations, which are harder to make responsive and centered.
+*   When dealing with responsive video, directly constraining the height of a container can lead to undesirable letterboxing or aspect ratio distortion. A better approach is to constrain the width and allow the height to adjust automatically.
+*   For centering elements like a `<video>` tag whose `max-width` has been reduced, `margin: 0 auto;` can be unreliable. A more robust solution is to make the parent element a flex container with `display: flex;` and `justify-content: center;`.
+*   Small adjustments to layout properties can have a significant impact on usability on small viewports without requiring major structural changes.
