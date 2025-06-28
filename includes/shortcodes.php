@@ -71,8 +71,8 @@ function wtn_glide_shortcode($atts)
         echo '</ul>';
         echo '</div>'; // .glide__track
         echo '<div class="glide__arrows" data-glide-el="controls">';
-        echo '<button class="glide__arrow glide__arrow--left" data-glide-dir="<"><span class="dashicons dashicons-arrow-left-alt"></span></button>';
-        echo '<button class="glide__arrow glide__arrow--right" data-glide-dir=">"><span class="dashicons dashicons-arrow-right-alt"></span></button>';
+        echo '<button class="glide__arrow glide__arrow--left" data-glide-dir="&lt;"><span class="dashicons dashicons-arrow-left-alt"></span></button>';
+        echo '<button class="glide__arrow glide__arrow--right" data-glide-dir="&gt;"><span class="dashicons dashicons-arrow-right-alt"></span></button>';
         echo '</div>'; // .glide__arrows
         echo '</div>'; // .glide
         echo '</div>'; // .glide-container
