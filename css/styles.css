@@ -54,7 +54,6 @@
   display: block;
   width: 100%;
   height: auto; /* Maintain aspect ratio */
-  border-radius: 10px;
 }
 
 /* Make sure non-active slides are visible for coverflow */
