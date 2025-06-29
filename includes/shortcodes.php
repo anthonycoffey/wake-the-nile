@@ -33,11 +33,7 @@ function wtn_video_coverflow_shortcode($atts)
 
     if ($videos_query->have_posts()) {
         echo '<div class="wtn-video-slider-container">';
-        echo '<div class="loading-overlay">';
-        echo '<div class="loading-spinner"></div>';
-        echo '<p>Loading... Please wait</p>';
-        echo '</div>';
-        echo '<div class="swiper wtn-video-slider" style="display: none;">';
+        echo '<div class="swiper wtn-video-slider">';
         echo '<div class="swiper-wrapper">';
 
         while ($videos_query->have_posts()) {

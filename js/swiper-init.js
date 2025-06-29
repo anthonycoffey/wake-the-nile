@@ -1,29 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const loadingOverlay = document.querySelector('.loading-overlay');
     const videoSlider = document.querySelector('.wtn-video-slider');
 
-    if (videoSlider && loadingOverlay) {
-        setTimeout(() => {
-            loadingOverlay.style.transition = 'opacity 0.5s ease';
-            loadingOverlay.style.opacity = '0';
-            setTimeout(() => {
-            loadingOverlay.style.display = 'none';
-            videoSlider.style.display = 'block';
-            videoSlider.style.opacity = '0';
-            setTimeout(() => {
-                videoSlider.style.transition = 'opacity 0.5s ease';
-                videoSlider.style.opacity = '1';
-            }, 10);
-        }, 500);
-    }, 3000);
-
-    const swiper = new Swiper('.wtn-video-slider', {
-        effect: 'coverflow',
-        loop: false,
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflowEffect: {
+    if (videoSlider) {
+        const swiper = new Swiper('.wtn-video-slider', {
+            effect: 'coverflow',
+            loop: false,
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: 'auto',
+            coverflowEffect: {
                 rotate: 20,
                 stretch: 0,
                 depth: 150,
@@ -34,21 +19,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 el: '.swiper-pagination',
                 clickable: true,
             },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        on: {
-            init: function () {
-                playActiveVideo(this);
-                // Manually trigger a resize event to ensure the slider calculates its dimensions correctly
-                window.dispatchEvent(new Event('resize'));
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
             },
-            slideChange: function () {
-                playActiveVideo(this);
+            on: {
+                init: function () {
+                    playActiveVideo(this);
+                },
+                slideChange: function () {
+                    playActiveVideo(this);
+                },
             },
-        },
-    });
+        });
 
         function playActiveVideo(swiperInstance) {
             // Pause all videos
