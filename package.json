@@ -15,7 +15,7 @@
     "url": "git+https://github.com/anthonycoffey/wake-the-nile.git"
   },
   "author": "anthonycoffey",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/anthonycoffey/wake-the-nile/issues"
   },
