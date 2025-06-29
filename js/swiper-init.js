@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         grabCursor: true,
         centeredSlides: true,
         slidesPerView: 'auto',
-        spaceBetween: 50,
         coverflowEffect: {
                 rotate: 20,
                 stretch: 0,
