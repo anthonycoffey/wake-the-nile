@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (videoSlider) {
         const swiper = new Swiper('.wtn-video-slider', {
             effect: 'coverflow',
+            loop: false,
             grabCursor: true,
             centeredSlides: true,
             slidesPerView: 'auto',
@@ -22,17 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
-            lazy: {
-                loadPrevNext: true,
-                checkInView: true,
-            },
             on: {
                 init: function () {
-                    this.lazy.load();
                     playActiveVideo(this);
                 },
                 slideChange: function () {
-                    this.lazy.load();
                     playActiveVideo(this);
                 },
             },
@@ -42,18 +37,15 @@ document.addEventListener('DOMContentLoaded', function () {
             // Pause all videos
             const allVideos = document.querySelectorAll('.wtn-video-slider video');
             allVideos.forEach(video => {
-                if (!video.paused) {
-                    video.pause();
-                }
+                video.pause();
             });
-        
+
             // Play the active slide's video
             const activeSlide = swiperInstance.slides[swiperInstance.activeIndex];
             const activeVideo = activeSlide.querySelector('video');
-        
-            if (activeVideo && activeVideo.hasAttribute('src')) {
+            if (activeVideo) {
                 activeVideo.play().catch(error => {
-                    console.error("Video autoplay failed.", error);
+                    console.error("Video autoplay failed:", error);
                 });
             }
         }
