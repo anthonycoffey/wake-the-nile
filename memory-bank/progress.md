@@ -2,7 +2,7 @@
 
 ## What Works
 
-*   **Video Slider:** The `[glide]` shortcode is functional and renders a video carousel populated by the "video" custom post type. The slider is responsive on desktop and mobile devices.
+*   **Video Slider:** The `[video_coverflow]` shortcode is functional and renders a video carousel using Swiper.js. The slider is responsive and uses lazy loading to efficiently load videos, improving performance.
 *   **Show Fields Blocks:** The custom Gutenberg blocks for the "show" post type are registered and render correctly on the front end.
 *   **Google Maps Integration:** The Google Maps block is functional, provided a valid API key is entered in the settings. The Maps JavaScript API is now loaded using the stable `quarterly` channel.
 *   **Settings Page:** The admin settings page for the Google Maps API key is present and functional.
@@ -15,6 +15,7 @@
 
 ## Recent Updates
 
+*   **Video Slider Performance:** Implemented lazy loading for the video slider using Swiper.js's native capabilities. This prevents all videos from loading at once, significantly improving page load times and performance.
 *   **Dashicons Enqueued:** The Dashicons stylesheet is now enqueued on the front end, making it available for use in the theme.
 *   **Google Maps API Stability:** Updated the Google Maps JavaScript API to use the `quarterly` version channel. This improves the stability and predictability of the map feature by avoiding weekly, potentially breaking changes.
 *   **City/State Block:** Added a new `show-fields/city-state` block to display show locations.

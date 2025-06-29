@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+            lazy: {
+                loadPrevNext: true,
+            },
             on: {
                 init: function () {
                     playActiveVideo(this);
@@ -36,15 +39,20 @@ document.addEventListener('DOMContentLoaded', function () {
             // Pause all videos
             const allVideos = document.querySelectorAll('.wtn-video-slider video');
             allVideos.forEach(video => {
-                video.pause();
+                if (!video.paused) {
+                    video.pause();
+                }
             });
-
+        
             // Play the active slide's video
             const activeSlide = swiperInstance.slides[swiperInstance.activeIndex];
             const activeVideo = activeSlide.querySelector('video');
-            if (activeVideo) {
+        
+            // Check if the video has a src, which indicates it's loaded or loading
+            if (activeVideo && activeVideo.hasAttribute('src')) {
                 activeVideo.play().catch(error => {
-                    console.error("Video autoplay failed:", error);
+                    // Autoplay was likely prevented by the browser
+                    console.error("Video autoplay failed. This is common in browsers that require user interaction first.", error);
                 });
             }
         }
