@@ -50,7 +50,6 @@
   background-position: center;
   background-size: cover;
   width: 300px;
-  margin: 0 25px;
   /* Height will be auto based on video aspect ratio */
 }
 
