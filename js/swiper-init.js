@@ -24,12 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             lazy: {
                 loadPrevNext: true,
+                checkInView: true,
             },
             on: {
                 init: function () {
+                    this.lazy.load();
                     playActiveVideo(this);
                 },
                 slideChange: function () {
+                    this.lazy.load();
                     playActiveVideo(this);
                 },
             },
@@ -48,11 +51,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const activeSlide = swiperInstance.slides[swiperInstance.activeIndex];
             const activeVideo = activeSlide.querySelector('video');
         
-            // Check if the video has a src, which indicates it's loaded or loading
             if (activeVideo && activeVideo.hasAttribute('src')) {
                 activeVideo.play().catch(error => {
-                    // Autoplay was likely prevented by the browser
-                    console.error("Video autoplay failed. This is common in browsers that require user interaction first.", error);
+                    console.error("Video autoplay failed.", error);
                 });
             }
         }
